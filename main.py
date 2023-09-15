@@ -18,13 +18,12 @@ def diaDaSemana(dia):
         nomeDoDia ='domingo'
     return 'Hoje é ' + nomeDoDia
 
-'''
+
 auth = tweepy.OAuth1UserHandler('kToF73rieDIO3tECcFk3jDdFh','snOnIhgU61UkleRlTGa85L84rPet4qcbB4IOJFDfXcpLXfAdOA', '1700698252700532736-2omHU8dS0orm3yi9wHfaI3T5By66FT', 'ecCouCcgmCJCniNY9uDiITDVriHax4qQEphvZzz63cH3L')
 
 api = tweepy.API(auth)
-patoDoDia = api.media_upload('patodancando.gif')
+patoDoDia = api.media_upload('pato_padeiro.mp4')
 print(patoDoDia)
-'''
 
 client = tweepy.Client(
     consumer_key="kToF73rieDIO3tECcFk3jDdFh",
@@ -33,8 +32,10 @@ client = tweepy.Client(
     access_token_secret="ecCouCcgmCJCniNY9uDiITDVriHax4qQEphvZzz63cH3L"
 )
 
-create1 = client.create_tweet(media_ids=[1700951087346302977], text=diaDaSemana(datetime.today().weekday()))
+create1 = client.create_tweet(media_ids=[patoDoDia.media_id], text=diaDaSemana(datetime.today().weekday()))
 print(create1)
+
+
 
 
 
