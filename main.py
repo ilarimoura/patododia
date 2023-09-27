@@ -1,7 +1,8 @@
 import tweepy
 from datetime import datetime
 from moviepy.editor import VideoFileClip, AudioFileClip
-from pytube import YouTube
+from pytube import YouTube, Playlist
+import random
 
 def baixar_video(urlVideo):
     YouTube(urlVideo) \
@@ -36,7 +37,10 @@ def diaDaSemana(dia):
         nomeDoDia ='domingo'
     return 'Hoje é ' + nomeDoDia
 
-baixar_video('https://www.youtube.com/watch?v=Pu6Mid2a428')
+pl = Playlist('https://www.youtube.com/playlist?list=PLmGO3ZOd8ezKutaz9luKJhx0_vnHUR1Aj')
+videoSorteado = random.choice(pl)
+baixar_video(videoSorteado)
+
 gerar_video()
 
 auth = tweepy.OAuth1UserHandler('kToF73rieDIO3tECcFk3jDdFh','snOnIhgU61UkleRlTGa85L84rPet4qcbB4IOJFDfXcpLXfAdOA', '1700698252700532736-2omHU8dS0orm3yi9wHfaI3T5By66FT', 'ecCouCcgmCJCniNY9uDiITDVriHax4qQEphvZzz63cH3L')
