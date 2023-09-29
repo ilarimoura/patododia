@@ -3,6 +3,12 @@ from datetime import datetime
 from moviepy.editor import VideoFileClip, AudioFileClip
 from pytube import YouTube, Playlist
 import random
+from moviepy.audio.fx.audio_fadein import audio_fadein
+from moviepy.audio.fx.audio_fadeout import audio_fadeout
+
+def sorteia_tempo_inicial(duracao):
+    maximo = int(duracao - 40)
+    return random.randint(10, maximo)
 
 def baixar_video(urlVideo):
     YouTube(urlVideo) \
@@ -15,8 +21,12 @@ def baixar_video(urlVideo):
 def gerar_video():
     videoPato = VideoFileClip("video.mp4")
     audioPato = AudioFileClip("audio.mp4")
-    audioPatoCurto = audioPato.set_duration(videoPato.duration)
+    tempoInicial = sorteia_tempo_inicial(audioPato.duration)
+    tempoFinal = tempoInicial + videoPato.duration
+    audioPatoCurto = audioPato.subclip(tempoInicial,tempoFinal)
     final_clip = videoPato.set_audio(audioPatoCurto)
+    final_clip = audio_fadein(final_clip, 3)
+    final_clip = audio_fadeout(final_clip, 3)
     final_clip.write_videofile("pato_pronto.mp4",codec='libx264', audio_codec='aac')
 
 def diaDaSemana(dia):
@@ -58,10 +68,6 @@ client = tweepy.Client(
 
 create1 = client.create_tweet(media_ids=[patoDoDia.media_id], text=diaDaSemana(datetime.today().weekday()))
 print(create1)
-
-
-
-
 
 
 
