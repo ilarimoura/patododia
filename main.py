@@ -5,6 +5,13 @@ from pytube import YouTube, Playlist
 import random
 from moviepy.audio.fx.audio_fadein import audio_fadein
 from moviepy.audio.fx.audio_fadeout import audio_fadeout
+from correct_metadata import CorrectMetadata
+
+def fraseDoDia(musica, artista):
+    if not musica or not artista:
+        return 'Bora dançar!'
+    else:
+        return 'Dia de ouvir ' + artista + ' - ' + musica + '!'
 
 def sorteia_tempo_inicial(duracao):
     maximo = int(duracao - 40)
@@ -45,7 +52,7 @@ def diaDaSemana(dia):
         nomeDoDia ='sábado'
     elif dia == 6:
         nomeDoDia ='domingo'
-    return 'Hoje é ' + nomeDoDia
+    return 'Hoje é ' + nomeDoDia +'!'
 
 pl = Playlist('https://www.youtube.com/playlist?list=PLmGO3ZOd8ezKutaz9luKJhx0_vnHUR1Aj')
 videoSorteado = random.choice(pl)
@@ -65,6 +72,11 @@ client = tweepy.Client(
     access_token="1700698252700532736-2omHU8dS0orm3yi9wHfaI3T5By66FT",
     access_token_secret="ecCouCcgmCJCniNY9uDiITDVriHax4qQEphvZzz63cH3L"
 )
+
+testeVideo = YouTube(videoSorteado)
+dados = CorrectMetadata(testeVideo.metadata)
+frasePato = diaDaSemana(datetime.today().weekday()) + fraseDoDia(dados.song, dados.artist)
+
 
 create1 = client.create_tweet(media_ids=[patoDoDia.media_id], text=diaDaSemana(datetime.today().weekday()))
 print(create1)
