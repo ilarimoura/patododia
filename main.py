@@ -75,10 +75,11 @@ client = tweepy.Client(
 
 testeVideo = YouTube(videoSorteado)
 dados = CorrectMetadata(testeVideo.metadata)
-frasePato = diaDaSemana(datetime.today().weekday()) + fraseDoDia(dados.song, dados.artist)
+frasePato = diaDaSemana(datetime.today().weekday()) + ' ' + fraseDoDia(dados.song, dados.artist)
 
 
-create1 = client.create_tweet(media_ids=[patoDoDia.media_id], text=diaDaSemana(datetime.today().weekday()))
+
+create1 = client.create_tweet(media_ids=[patoDoDia.media_id], text=frasePato)
 print(create1)
 
 
