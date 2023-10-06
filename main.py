@@ -6,12 +6,8 @@ import random
 from moviepy.audio.fx.audio_fadein import audio_fadein
 from moviepy.audio.fx.audio_fadeout import audio_fadeout
 from correct_metadata import CorrectMetadata
+from frases import Frases
 
-def fraseDoDia(musica, artista):
-    if not musica or not artista:
-        return 'Bora dançar!'
-    else:
-        return 'Dia de ouvir ' + artista + ' - ' + musica + '!'
 
 def sorteia_tempo_inicial(duracao):
     maximo = int(duracao - 40)
@@ -36,23 +32,7 @@ def gerar_video():
     final_clip = audio_fadeout(final_clip, 3)
     final_clip.write_videofile("pato_pronto.mp4",codec='libx264', audio_codec='aac')
 
-def diaDaSemana(dia):
-    nomeDoDia =''
-    if dia == 0:
-        nomeDoDia = 'segunda'
-    elif dia == 1:
-        nomeDoDia ='terça'
-    elif dia == 2:
-        nomeDoDia ='quarta'
-    elif dia == 3:
-        nomeDoDia ='quinta'
-    elif dia == 4:
-        nomeDoDia ='sexta'
-    elif dia == 5:
-        nomeDoDia ='sábado'
-    elif dia == 6:
-        nomeDoDia ='domingo'
-    return 'Hoje é ' + nomeDoDia +'!'
+
 
 pl = Playlist('https://www.youtube.com/playlist?list=PLmGO3ZOd8ezKutaz9luKJhx0_vnHUR1Aj')
 videoSorteado = random.choice(pl)
@@ -75,14 +55,9 @@ client = tweepy.Client(
 
 testeVideo = YouTube(videoSorteado)
 dados = CorrectMetadata(testeVideo.metadata)
-frasePato = diaDaSemana(datetime.today().weekday()) + ' ' + fraseDoDia(dados.song, dados.artist)
 
+frases = Frases()
+textoTwitter = frases.fraseDoPato(datetime.today().weekday(), dados.song, dados.artist)
 
-
-create1 = client.create_tweet(media_ids=[patoDoDia.media_id], text=frasePato)
+create1 = client.create_tweet(media_ids=[patoDoDia.media_id], text=textoTwitter)
 print(create1)
-
-
-
-
-
