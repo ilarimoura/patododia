@@ -9,9 +9,9 @@ from correct_metadata import CorrectMetadata
 from frases import Frases
 
 
-def sorteia_tempo_inicial(duracao):
-    maximo = int(duracao - 40)
-    return random.randint(10, maximo)
+def decide_tempo_inicial(duracao):
+    meio = int(duracao / 2)
+    return meio
 
 def baixar_video(urlVideo):
     YouTube(urlVideo) \
@@ -24,7 +24,7 @@ def baixar_video(urlVideo):
 def gerar_video():
     videoPato = VideoFileClip("video.mp4")
     audioPato = AudioFileClip("audio.mp4")
-    tempoInicial = sorteia_tempo_inicial(audioPato.duration)
+    tempoInicial = decide_tempo_inicial(audioPato.duration)
     tempoFinal = tempoInicial + videoPato.duration
     audioPatoCurto = audioPato.subclip(tempoInicial,tempoFinal)
     final_clip = videoPato.set_audio(audioPatoCurto)
