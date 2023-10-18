@@ -7,6 +7,11 @@ from moviepy.audio.fx.audio_fadein import audio_fadein
 from moviepy.audio.fx.audio_fadeout import audio_fadeout
 from correct_metadata import CorrectMetadata
 from frases import Frases
+import json
+
+
+arquivo = open('config.json')
+dados1 = json.load(arquivo)
 
 
 def decide_tempo_inicial(duracao):
@@ -40,18 +45,24 @@ baixar_video(videoSorteado)
 
 gerar_video()
 
-auth = tweepy.OAuth1UserHandler('kToF73rieDIO3tECcFk3jDdFh','snOnIhgU61UkleRlTGa85L84rPet4qcbB4IOJFDfXcpLXfAdOA', '1700698252700532736-2omHU8dS0orm3yi9wHfaI3T5By66FT', 'ecCouCcgmCJCniNY9uDiITDVriHax4qQEphvZzz63cH3L')
+auth = tweepy.OAuth1UserHandler(dados1['twitter']['consumer_key'],
+                                dados1['twitter']['consumer_secret'],
+                                dados1['twitter']['access_token'],
+                                dados1['twitter']['access_token_secret'])
 
 api = tweepy.API(auth)
 patoDoDia = api.media_upload('pato_pronto.mp4')
 print(patoDoDia)
 
 client = tweepy.Client(
-    consumer_key="kToF73rieDIO3tECcFk3jDdFh",
-    consumer_secret="snOnIhgU61UkleRlTGa85L84rPet4qcbB4IOJFDfXcpLXfAdOA",
-    access_token="1700698252700532736-2omHU8dS0orm3yi9wHfaI3T5By66FT",
-    access_token_secret="ecCouCcgmCJCniNY9uDiITDVriHax4qQEphvZzz63cH3L"
+    consumer_key=dados1['twitter']['consumer_key'],
+    consumer_secret=dados1['twitter']['consumer_secret'],
+    access_token=dados1['twitter']['access_token'],
+    access_token_secret=dados1['twitter']['access_token_secret'],
+
+
 )
+arquivo.close()
 
 testeVideo = YouTube(videoSorteado)
 dados = CorrectMetadata(testeVideo.metadata)
