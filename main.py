@@ -9,6 +9,26 @@ from correct_metadata import CorrectMetadata
 from frases import Frases
 import json
 
+def dados_video(url):
+    youTube = YouTube(url)
+    musica = youTube.metadata['song']
+    artista = youTube.metadata['artist']
+    numeroDeTentativas = 0
+
+
+
+
+    while (musica is None or artista is None) and numeroDeTentativas < 5:
+        youTube = YouTube(url)
+        musica = youTube.metadata['song']
+        artista = youTube.metadata['artist']
+        numeroDeTentativas = numeroDeTentativas + 1
+
+
+    return youTube.metadata
+
+
+
 
 arquivo = open('config.json')
 dados1 = json.load(arquivo)
@@ -52,7 +72,7 @@ auth = tweepy.OAuth1UserHandler(dados1['twitter']['consumer_key'],
 
 api = tweepy.API(auth)
 patoDoDia = api.media_upload('pato_pronto.mp4')
-print(patoDoDia)
+
 
 client = tweepy.Client(
     consumer_key=dados1['twitter']['consumer_key'],
@@ -64,11 +84,12 @@ client = tweepy.Client(
 )
 arquivo.close()
 
-testeVideo = YouTube(videoSorteado)
-dados = CorrectMetadata(testeVideo.metadata)
+infoVideo = dados_video(videoSorteado)
+
 
 frases = Frases()
-textoTwitter = frases.fraseDoPato(datetime.today().weekday(), dados.song, dados.artist)
+textoTwitter = frases.fraseDoPato(datetime.today().weekday(), infoVideo['song'], infoVideo['artist'])
 
 create1 = client.create_tweet(media_ids=[patoDoDia.media_id], text=textoTwitter)
-print(create1)
+
+
