@@ -9,6 +9,15 @@ from correct_metadata import CorrectMetadata
 from frases import Frases
 import json
 
+def sorteia_nova_musica(lista_musicas,lista_sorteada):
+
+    sorteio2 = random.choice(lista_musicas)
+    while sorteio2 in lista_sorteada:
+        sorteio2 = random.choice(lista_musicas)
+    return sorteio2
+
+
+
 def dados_video(url):
     youTube = YouTube(url)
     musica = youTube.metadata['song']
@@ -26,9 +35,6 @@ def dados_video(url):
 
 
     return youTube.metadata
-
-
-
 
 arquivo = open('config.json')
 dados1 = json.load(arquivo)
@@ -60,7 +66,7 @@ def gerar_video():
 
 
 pl = Playlist('https://www.youtube.com/playlist?list=PLmGO3ZOd8ezKutaz9luKJhx0_vnHUR1Aj')
-videoSorteado = random.choice(pl)
+videoSorteado = sorteia_nova_musica(pl,[])
 baixar_video(videoSorteado)
 
 gerar_video()
