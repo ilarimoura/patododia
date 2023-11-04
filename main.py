@@ -39,7 +39,6 @@ def dados_video(url):
 arquivo = open('config.json')
 dados1 = json.load(arquivo)
 
-
 def decide_tempo_inicial(duracao):
     meio = int(duracao / 2)
     return meio
@@ -65,7 +64,7 @@ def gerar_video():
 
 
 
-pl = Playlist('https://www.youtube.com/playlist?list=PLmGO3ZOd8ezKutaz9luKJhx0_vnHUR1Aj')
+pl = Playlist(dados1['youtube']['playlist_url'])
 videoSorteado = sorteia_nova_musica(pl,[])
 baixar_video(videoSorteado)
 
