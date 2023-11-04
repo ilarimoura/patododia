@@ -96,5 +96,6 @@ frases = Frases()
 textoTwitter = frases.fraseDoPato(datetime.today().weekday(), infoVideo['song'], infoVideo['artist'])
 
 create1 = client.create_tweet(media_ids=[patoDoDia.media_id], text=textoTwitter)
+print(create1)
 
 
