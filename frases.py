@@ -1,8 +1,14 @@
+import random
+
 class Frases:
     @staticmethod
     def __fraseDoDia(musica, artista):
         if not musica or not artista:
-            return 'Bora dançar!'
+            if random.randint(1, 2) == 1:
+                return 'Bora dançar!'
+            else:
+                return 'Aumenta o som!'
+
         else:
             return 'Dia de ouvir ' + artista + ' - ' + musica + '!'
 
