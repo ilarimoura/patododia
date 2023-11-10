@@ -1,13 +1,12 @@
-import tweepy
 from datetime import datetime
 from moviepy.editor import VideoFileClip, AudioFileClip
 from pytube import YouTube, Playlist
 import random
 from moviepy.audio.fx.audio_fadein import audio_fadein
 from moviepy.audio.fx.audio_fadeout import audio_fadeout
-from correct_metadata import CorrectMetadata
 from frases import Frases
 import json
+from gerenciador_twitter import GerenciadorTwitter
 
 
 def sorteia_nova_musica(lista_musicas,lista_sorteada):
@@ -17,8 +16,6 @@ def sorteia_nova_musica(lista_musicas,lista_sorteada):
     while sorteio2 in lista_sorteada:
         sorteio2 = random.choice(lista_musicas)
     return sorteio2
-
-
 
 def dados_video(url):
     youTube = YouTube(url)
@@ -51,7 +48,6 @@ def baixar_video(urlVideo):
         .first() \
         .download(filename='audio.mp4', skip_existing=False)
 
-
 def gerar_video():
     videoPato = VideoFileClip("video.mp4")
     audioPato = AudioFileClip("audio.mp4")
@@ -75,33 +71,20 @@ baixar_video(videoSorteado)
 
 gerar_video()
 
-auth = tweepy.OAuth1UserHandler(dados1['twitter']['consumer_key'],
-                                dados1['twitter']['consumer_secret'],
-                                dados1['twitter']['access_token'],
-                                dados1['twitter']['access_token_secret'])
 
-api = tweepy.API(auth)
-patoDoDia = api.media_upload('pato_pronto.mp4')
-
-
-client = tweepy.Client(
-    consumer_key=dados1['twitter']['consumer_key'],
-    consumer_secret=dados1['twitter']['consumer_secret'],
-    access_token=dados1['twitter']['access_token'],
-    access_token_secret=dados1['twitter']['access_token_secret'],
-
-
-)
 arquivo.close()
 
 
 infoVideo = dados_video(videoSorteado)
 
 
-frases = Frases()
-textoTwitter = frases.fraseDoPato(datetime.today().weekday(), infoVideo['song'], infoVideo['artist'])
 
-create1 = client.create_tweet(media_ids=[patoDoDia.media_id], text=textoTwitter)
-print(create1)
+textoTwitter = Frases.fraseDoPato(datetime.today().weekday(), infoVideo['song'], infoVideo['artist'])
 
-
+GerenciadorTwitter.postar('pato_pronto.mp4',
+                          textoTwitter,
+                          dados1['twitter']['consumer_key'],
+                          dados1['twitter']['consumer_secret'],
+                          dados1['twitter']['access_token'],
+                          dados1['twitter']['access_token_secret']
+                        )

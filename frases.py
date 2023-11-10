@@ -1,11 +1,13 @@
 class Frases:
-    def __fraseDoDia(self, musica, artista):
+    @staticmethod
+    def __fraseDoDia(musica, artista):
         if not musica or not artista:
             return 'Bora dançar!'
         else:
             return 'Dia de ouvir ' + artista + ' - ' + musica + '!'
 
-    def __diaDaSemana(self, dia):
+    @staticmethod
+    def __diaDaSemana(dia):
         nomeDoDia = ''
         if dia == 0:
             nomeDoDia = 'segunda'
@@ -23,8 +25,6 @@ class Frases:
             nomeDoDia = 'domingo'
         return 'Hoje é ' + nomeDoDia + '!'
 
-    def fraseDoPato(self, dia_da_semana, musica, artista):
-        return self.__diaDaSemana(dia_da_semana) + ' ' + self.__fraseDoDia(musica, artista)
-
-#frase = Frases()
-#print(frase.fraseDoPato(1, 'everlong', 'foo fighters'))
+    @staticmethod
+    def fraseDoPato(dia_da_semana, musica, artista):
+        return Frases.__diaDaSemana(dia_da_semana) + ' ' + Frases.__fraseDoDia(musica, artista)
