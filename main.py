@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from moviepy.editor import VideoFileClip, AudioFileClip
 from pytube import YouTube, Playlist
 import random
@@ -62,7 +62,12 @@ def gerar_video():
 arquivo_musicas_sorteadas_gravar = open('musicas_sorteadas.json', 'w')
 
 pl = Playlist(dados1['youtube']['playlist_url'])
-videoSorteado = sorteia_nova_musica(pl,dados_musicas_sorteadas)
+
+if date.today() == date(2023, 11, 13):
+    videoSorteado = 'https://www.youtube.com/watch?v=ZDNLAkSmVMg'
+else:
+    videoSorteado = sorteia_nova_musica(pl,dados_musicas_sorteadas)
+
 dados_musicas_sorteadas[datetime.today().day - 1] = videoSorteado
 
 json.dump(dados_musicas_sorteadas,arquivo_musicas_sorteadas_gravar)
