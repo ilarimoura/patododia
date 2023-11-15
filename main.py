@@ -8,7 +8,11 @@ from frases import Frases
 import json
 from gerenciador_twitter import GerenciadorTwitter
 
-
+dia_de_hoje_string = date.today().strftime('%Y-%m-%d')
+def achar_data(data_procurada, array_musicas):
+    for data_especial in array_musicas:
+        if data_procurada == data_especial['data']:
+            return data_especial
 def sorteia_nova_musica(lista_musicas,lista_sorteada):
 
     sorteio2 = random.choice(lista_musicas)
