@@ -8,11 +8,12 @@ from frases import Frases
 import json
 from gerenciador_twitter import GerenciadorTwitter
 
-dia_de_hoje_string = date.today().strftime('%Y-%m-%d')
-def achar_data(data_procurada, array_musicas):
-    for data_especial in array_musicas:
+
+def achar_data(data_procurada, array_musicas_especiais):
+    for data_especial in array_musicas_especiais:
         if data_procurada == data_especial['data']:
             return data_especial
+
 def sorteia_nova_musica(lista_musicas,lista_sorteada):
 
     sorteio2 = random.choice(lista_musicas)
@@ -41,6 +42,12 @@ arquivo_musicas_sorteadas = open('musicas_sorteadas.json')
 dados_musicas_sorteadas = json.load(arquivo_musicas_sorteadas)
 arquivo_musicas_sorteadas.close()
 
+dia_de_hoje_string = date.today().strftime('%Y-%m-%d')
+musicas_programadas_arquivo = open('musicas_programadas.json')
+musicas_programadas = json.load(musicas_programadas_arquivo)
+musica_programada_do_dia = achar_data(dia_de_hoje_string, musicas_programadas)
+musicas_programadas_arquivo.close()
+
 def decide_tempo_inicial(duracao):
     meio = int(duracao / 2)
     return meio
@@ -67,8 +74,8 @@ arquivo_musicas_sorteadas_gravar = open('musicas_sorteadas.json', 'w')
 
 pl = Playlist(dados1['youtube']['playlist_url'])
 
-if date.today() == date(2023, 11, 13):
-    videoSorteado = 'https://www.youtube.com/watch?v=ZDNLAkSmVMg'
+if musica_programada_do_dia:
+    videoSorteado = musica_programada_do_dia['url']
 else:
     videoSorteado = sorteia_nova_musica(pl,dados_musicas_sorteadas)
 
@@ -87,8 +94,11 @@ arquivo.close()
 infoVideo = dados_video(videoSorteado)
 
 
+if musica_programada_do_dia:
+    textoTwitter = musica_programada_do_dia['texto']
+else:
+    textoTwitter = Frases.fraseDoPato(datetime.today().weekday(), infoVideo['song'], infoVideo['artist'])
 
-textoTwitter = Frases.fraseDoPato(datetime.today().weekday(), infoVideo['song'], infoVideo['artist'])
 
 GerenciadorTwitter.postar('pato_pronto.mp4',
                           textoTwitter,
