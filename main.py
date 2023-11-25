@@ -43,7 +43,7 @@ dados_musicas_sorteadas = json.load(arquivo_musicas_sorteadas)
 arquivo_musicas_sorteadas.close()
 
 dia_de_hoje_string = date.today().strftime('%Y-%m-%d')
-musicas_programadas_arquivo = open('musicas_programadas.json')
+musicas_programadas_arquivo = open('musicas_programadas.json', encoding="utf-8")
 musicas_programadas = json.load(musicas_programadas_arquivo)
 musica_programada_do_dia = achar_data(dia_de_hoje_string, musicas_programadas)
 musicas_programadas_arquivo.close()
