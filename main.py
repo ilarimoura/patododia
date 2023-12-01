@@ -75,7 +75,7 @@ if musica_programada_do_dia:
 else:
     videoSorteado = sorteia_nova_musica(pl,dados_musicas_sorteadas)
 
-posicao_musica = GerenciadorDatas.achar_posicao_do_array(hoje.day, 2)
+posicao_musica = GerenciadorDatas.achar_posicao_do_array(hoje.day, hoje.month)
 dados_musicas_sorteadas[posicao_musica] = videoSorteado
 
 
