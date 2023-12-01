@@ -7,12 +7,7 @@ from moviepy.audio.fx.audio_fadeout import audio_fadeout
 from frases import Frases
 import json
 from gerenciador_twitter import GerenciadorTwitter
-
-
-def achar_data(data_procurada, array_musicas_especiais):
-    for data_especial in array_musicas_especiais:
-        if data_procurada == data_especial['data']:
-            return data_especial
+from gerenciador_data import GerenciadorDatas
 
 def sorteia_nova_musica(lista_musicas,lista_sorteada):
 
@@ -42,10 +37,11 @@ arquivo_musicas_sorteadas = open('musicas_sorteadas.json')
 dados_musicas_sorteadas = json.load(arquivo_musicas_sorteadas)
 arquivo_musicas_sorteadas.close()
 
-dia_de_hoje_string = date.today().strftime('%Y-%m-%d')
+hoje = date.today()
+dia_de_hoje_string = hoje.strftime('%Y-%m-%d')
 musicas_programadas_arquivo = open('musicas_programadas.json', encoding="utf-8")
 musicas_programadas = json.load(musicas_programadas_arquivo)
-musica_programada_do_dia = achar_data(dia_de_hoje_string, musicas_programadas)
+musica_programada_do_dia = GerenciadorDatas.achar_data(dia_de_hoje_string, musicas_programadas)
 musicas_programadas_arquivo.close()
 
 def decide_tempo_inicial(duracao):
@@ -79,7 +75,10 @@ if musica_programada_do_dia:
 else:
     videoSorteado = sorteia_nova_musica(pl,dados_musicas_sorteadas)
 
-dados_musicas_sorteadas[datetime.today().day - 1] = videoSorteado
+posicao_musica = GerenciadorDatas.achar_posicao_do_array(hoje.day, 2)
+dados_musicas_sorteadas[posicao_musica] = videoSorteado
+
+
 
 json.dump(dados_musicas_sorteadas,arquivo_musicas_sorteadas_gravar)
 arquivo_musicas_sorteadas_gravar.close()
