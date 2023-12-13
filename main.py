@@ -31,18 +31,6 @@ def dados_video(url):
 
     return youTube.metadata
 
-arquivo = open('config.json')
-dados1 = json.load(arquivo)
-arquivo_musicas_sorteadas = open('musicas_sorteadas.json')
-dados_musicas_sorteadas = json.load(arquivo_musicas_sorteadas)
-arquivo_musicas_sorteadas.close()
-
-hoje = date.today()
-dia_de_hoje_string = hoje.strftime('%Y-%m-%d')
-musicas_programadas_arquivo = open('musicas_programadas.json', encoding="utf-8")
-musicas_programadas = json.load(musicas_programadas_arquivo)
-musica_programada_do_dia = GerenciadorDatas.achar_data(dia_de_hoje_string, musicas_programadas)
-musicas_programadas_arquivo.close()
 
 def decide_tempo_inicial(duracao):
     meio = int(duracao / 2)
@@ -55,16 +43,6 @@ def baixar_video(urlVideo):
         .first() \
         .download(filename='audio.mp4', skip_existing=False)
 
-def gerar_video():
-    videoPato = VideoFileClip("video.mp4")
-    audioPato = AudioFileClip("audio.mp4")
-    tempoInicial = decide_tempo_inicial(audioPato.duration)
-    tempoFinal = tempoInicial + videoPato.duration
-    audioPatoCurto = audioPato.subclip(tempoInicial,tempoFinal)
-    final_clip = videoPato.set_audio(audioPatoCurto)
-    final_clip = audio_fadein(final_clip, 3)
-    final_clip = audio_fadeout(final_clip, 3)
-    final_clip.write_videofile("pato_pronto.mp4",codec='libx264', audio_codec='aac')
 
 arquivo_musicas_sorteadas_gravar = open('musicas_sorteadas.json', 'w')
 
