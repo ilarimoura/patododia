@@ -16,19 +16,19 @@ class Frases:
     def __diaDaSemana(dia):
         nomeDoDia = ''
         if dia == 0:
-            nomeDoDia = 'segunda'
+            nomeDoDia = 'Segunda'
         elif dia == 1:
-            nomeDoDia = 'terça'
+            nomeDoDia = 'Terça'
         elif dia == 2:
-            nomeDoDia = 'quarta'
+            nomeDoDia = 'Quarta'
         elif dia == 3:
-            nomeDoDia = 'quinta'
+            nomeDoDia = 'Quinta'
         elif dia == 4:
-            nomeDoDia = 'sexta'
+            nomeDoDia = 'Sexta'
         elif dia == 5:
-            nomeDoDia = 'sábado'
+            nomeDoDia = 'Sábado'
         elif dia == 6:
-            nomeDoDia = 'domingo'
+            nomeDoDia = 'Domingo'
         return 'Hoje é ' + nomeDoDia + '!'
 
     @staticmethod
