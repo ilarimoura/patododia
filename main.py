@@ -8,22 +8,20 @@ from musica import Musica
 from video import Video
 
 
+with open('config.json') as arquivo:
+    dados1 = json.load(arquivo)
 
-arquivo = open('config.json')
-dados1 = json.load(arquivo)
-arquivo_musicas_sorteadas = open('musicas_sorteadas.json')
-dados_musicas_sorteadas = json.load(arquivo_musicas_sorteadas)
-arquivo_musicas_sorteadas.close()
+with open('musicas_sorteadas.json') as arquivo_musicas_sorteadas:
+    dados_musicas_sorteadas = json.load(arquivo_musicas_sorteadas)
 
 hoje = date.today()
 dia_de_hoje_string = hoje.strftime('%Y-%m-%d')
-musicas_programadas_arquivo = open('musicas_programadas.json', encoding="utf-8")
-musicas_programadas = json.load(musicas_programadas_arquivo)
+with open('musicas_programadas.json', encoding="utf-8") as musicas_programadas_arquivo:
+    musicas_programadas = json.load(musicas_programadas_arquivo)
+
+
 musica_programada_do_dia = GerenciadorDatas.achar_data(dia_de_hoje_string, musicas_programadas)
-musicas_programadas_arquivo.close()
 
-
-arquivo_musicas_sorteadas_gravar = open('musicas_sorteadas.json', 'w')
 
 pl = Playlist(dados1['youtube']['playlist_url'])
 
@@ -35,20 +33,13 @@ else:
 posicao_musica = GerenciadorDatas.achar_posicao_do_array(hoje.day, hoje.month)
 dados_musicas_sorteadas[posicao_musica] = videoSorteado
 
+with open('musicas_sorteadas.json', 'w') as arquivo_musicas_sorteadas_gravar:
+    json.dump(dados_musicas_sorteadas, arquivo_musicas_sorteadas_gravar)
 
-
-json.dump(dados_musicas_sorteadas,arquivo_musicas_sorteadas_gravar)
-arquivo_musicas_sorteadas_gravar.close()
 Video.baixar_video(videoSorteado)
 
 Video.gerar_video()
-
-
-arquivo.close()
-
-
 infoVideo = Video.dados_video(videoSorteado)
-
 
 if musica_programada_do_dia:
     textoTwitter = musica_programada_do_dia['texto']
