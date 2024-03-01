@@ -1,3 +1,4 @@
+import random
 from datetime import datetime, date
 from pytube import Playlist
 from frases import Frases
@@ -21,9 +22,12 @@ musica_programada_do_dia = GerenciadorDatas.achar_data(dia_de_hoje_string, music
 
 pl = Playlist(config['youtube']['playlist_url'])
 
+tempo_inicial = None
 if musica_programada_do_dia:
     videoSorteado = musica_programada_do_dia['url']
     textoTwitter = musica_programada_do_dia['texto']
+    tempo_inicial = musica_programada_do_dia.get('tempo_inicial', None)
+
 else:
     videoSorteado = Musica.sorteia_nova_musica(pl,dados_musicas_sorteadas)
     infoVideo = Video.dados_video(videoSorteado)
@@ -36,7 +40,7 @@ with open('musicas_sorteadas.json', 'w') as arquivo_musicas_sorteadas_gravar:
     json.dump(dados_musicas_sorteadas, arquivo_musicas_sorteadas_gravar)
 
 Video.baixar_video(videoSorteado)
-Video.gerar_video()
+Video.gerar_video(tempo_inicial)
 
 twitter = GerenciadorTwitter(config['twitter'])
 twitter.postar('pato_pronto.mp4', textoTwitter)
