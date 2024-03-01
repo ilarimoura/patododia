@@ -31,10 +31,14 @@ class Video:
             .download(filename='audio.mp4', skip_existing=False)
 
     @staticmethod
-    def gerar_video():
+    def gerar_video(tempo_inicial_musica_programada=None):
         videoPato = VideoFileClip("video.mp4")
         audioPato = AudioFileClip("audio.mp4")
         tempoInicial = Musica.decide_tempo_inicial(audioPato.duration)
+
+        if tempo_inicial_musica_programada:
+            tempoInicial = tempo_inicial_musica_programada
+
         tempoFinal = tempoInicial + videoPato.duration
         audioPatoCurto = audioPato.subclip(tempoInicial, tempoFinal)
         final_clip = videoPato.set_audio(audioPatoCurto)
