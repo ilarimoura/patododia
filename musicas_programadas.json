@@ -20,10 +20,14 @@
     "texto": "Hoje é Quarta! Dia de ouvir Visconde - 6h34"
   },
   {
-
-    "data": "2024-03-01",
-    "url": "https://www.youtube.com/watch?v=Agwx4DWeTOY",
-    "texto": "Hoje é Sexta! Dia de ouvir Twenty One Pilots - Overcompensate"
-
+    "data": "2024-03-03",
+    "url": "https://www.youtube.com/watch?v=MiPBQJq49xk",
+    "texto": "Hoje é Domingo! Dia de ouvir Twenty One Pilots - Polarize",
+    "tempo_inicial": 120
+  },
+  {
+    "data": "2024-03-04",
+    "url": "https://www.youtube.com/watch?v=MIABpVRDb-I",
+    "texto": "Hoje é Segunda! Dia de ouvir Red Hot Chili Peppers - Aquatic Mouth Dance"
   }
 ]
