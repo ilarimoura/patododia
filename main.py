@@ -8,6 +8,7 @@ from gerenciador_data import GerenciadorDatas
 from musica import Musica
 from video import Video
 from arquivo import Arquivo
+import time
 
 
 config = Arquivo.abrir_json('config.json')
@@ -41,6 +42,9 @@ with open('musicas_sorteadas.json', 'w') as arquivo_musicas_sorteadas_gravar:
 
 Video.baixar_video(videoSorteado)
 Video.gerar_video(tempo_inicial)
+pausa_postagem = random.choice([0,60,120,180,240,300])
+time.sleep(pausa_postagem)
+
 
 twitter = GerenciadorTwitter(config['twitter'])
 twitter.postar('pato_pronto.mp4', textoTwitter)
