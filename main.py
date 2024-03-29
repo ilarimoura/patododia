@@ -48,3 +48,4 @@ time.sleep(pausa_postagem)
 
 twitter = GerenciadorTwitter(config['twitter'])
 twitter.postar('pato_pronto.mp4', textoTwitter)
+
