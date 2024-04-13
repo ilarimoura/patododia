@@ -14,5 +14,8 @@
       <input type="number" name="segundos" placeholder="segundos">
       <input type="submit">
     </form>
+  {% for item in musicas_programadas %}
+    <p> {{ item[0]}} {{ item[1]}} </p>
+{% endfor %}
   </body>
 </html>
