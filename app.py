@@ -12,8 +12,12 @@ def hello_world():
 
 @app.post("/add_music")
 def add_music():
-    print(flask.request.form.get('url'))
-    print(flask.request.form.get('data'))
+    cursor = get_db().cursor()
+    url = flask.request.form.get('url')
+    data = flask.request.form.get('data')
+    texto = flask.request.form.get('texto')
+    cursor.execute('insert into musicas_programadas(url, data, texto) values(?,?,?)', (url, data, texto))
+    get_db().commit()
     return flask.redirect(flask.url_for('hello_world'))
 
 @app.teardown_appcontext
