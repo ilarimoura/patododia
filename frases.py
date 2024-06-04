@@ -10,7 +10,7 @@ class Frases:
                 return 'Aumenta o som!'
 
         else:
-            return 'Dia de ouvir ' + artista + ' - ' + musica + '!'
+            return 'Dia de ouvir ' + artista + ' - ' + musica
 
     @staticmethod
     def __diaDaSemana(dia):
