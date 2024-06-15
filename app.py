@@ -1,6 +1,9 @@
 import flask
 import sqlite3
 from flask import Flask, g
+from video import Video
+from gerenciador_twitter import GerenciadorTwitter
+from arquivo import Arquivo
 
 app = Flask(__name__)
 
@@ -32,3 +35,27 @@ def get_db():
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
     return db
+
+@app.get('/agora')
+def get_agora():
+    return flask.render_template('form_agora.html')
+
+@app.post('/agora')
+def post_agora():
+    url = flask.request.form.get('url')
+    texto = flask.request.form.get('texto')
+    tempo_inicial = int(flask.request.form.get('tempo_inicial'))
+    senha = flask.request.form.get("senha")
+
+    config = Arquivo.abrir_json('config.json')
+
+    if senha != config['chave_seguranca']:
+        return "Senha incorreta", 400
+
+    Video.baixar_video(url)
+    Video.gerar_video(tempo_inicial)
+    twitter = GerenciadorTwitter(config['twitter'])
+    twitter.postar('pato_pronto.mp4', texto)
+
+    return "postei", 200
+
