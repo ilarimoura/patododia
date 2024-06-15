@@ -27,4 +27,6 @@ class GerenciadorTwitter:
         )
 
         create1 = client.create_tweet(media_ids=[pato_do_dia.media_id], text=frase_do_dia)
+
         print(create1)
+        return create1
