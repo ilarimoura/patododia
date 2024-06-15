@@ -59,3 +59,7 @@ def post_agora():
 
     return "postei", 200
 
+
+if __name__ == '__main__':
+    config = Arquivo.abrir_json('config.json')
+    app.run(host="0.0.0.0", port=config['server_port'])
