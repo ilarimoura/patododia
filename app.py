@@ -1,9 +1,10 @@
 import flask
 import sqlite3
-from flask import Flask, g
+from flask import Flask, g, redirect, url_for, request
 from video import Video
 from gerenciador_twitter import GerenciadorTwitter
 from arquivo import Arquivo
+
 
 app = Flask(__name__)
 
@@ -38,7 +39,8 @@ def get_db():
 
 @app.get('/agora')
 def get_agora():
-    return flask.render_template('form_agora.html')
+    mensagem = request.args.get('mensagem', default='')
+    return flask.render_template('form_agora.html', mensagem=mensagem)
 
 @app.post('/agora')
 def post_agora():
@@ -57,7 +59,7 @@ def post_agora():
     twitter = GerenciadorTwitter(config['twitter'])
     twitter.postar('pato_pronto.mp4', texto)
 
-    return "postei", 200
+    return redirect(url_for('get_agora', mensagem='postei: ' + url))
 
 
 if __name__ == '__main__':
